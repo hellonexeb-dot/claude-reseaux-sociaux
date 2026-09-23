@@ -1,0 +1,66 @@
+name: Agent réseaux sociaux
+
+on:
+  # >>> planification : générée par `python agent.py planifier` à partir du rythme
+  # Publication aux créneaux (mar., jeu. 12:15, heure de Paris, été comme hiver)
+  # + passage de sécurité le lundi à 07:00.
+  schedule:
+    - cron: "15 10 * * 2,4"
+    - cron: "15 11 * * 2,4"
+    - cron: "0 5 * * 1"
+    - cron: "0 6 * * 1"
+  # <<< planification
+  workflow_dispatch:
+    inputs:
+      etape:
+        description: "Étape à lancer"
+        type: choice
+        default: tout
+        options: [tout, idees, rediger, publier, verifier]
+
+concurrency:
+  group: agent-reseaux
+  cancel-in-progress: false
+
+jobs:
+  agent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      RESEAUX_ACTIFS: ${{ secrets.RESEAUX_ACTIFS }}
+      NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+      NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+      NOTION_THEMES_ID: ${{ secrets.NOTION_THEMES_ID }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
+      IMGBB_API_KEY: ${{ secrets.IMGBB_API_KEY }}
+      IMAGES_MOTEUR: ${{ secrets.IMAGES_MOTEUR }}
+      FAL_KEY: ${{ secrets.FAL_KEY }}
+      FAL_MODEL: ${{ secrets.FAL_MODEL }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+      META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
+      INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+      LINKEDIN_TOKEN: ${{ secrets.LINKEDIN_TOKEN }}
+      MIN_IDEES: ${{ secrets.MIN_IDEES }}
+      IDEES_PAR_LOT: ${{ secrets.IDEES_PAR_LOT }}
+      RYTHME_JOURS: ${{ secrets.RYTHME_JOURS }}
+      RYTHME_HEURE: ${{ secrets.RYTHME_HEURE }}
+      RYTHME_DELAI_HEURES: ${{ secrets.RYTHME_DELAI_HEURES }}
+      TEXTES_MOTEUR: ${{ secrets.TEXTES_MOTEUR }}
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      CLAUDE_MODEL: ${{ secrets.CLAUDE_MODEL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Installer Claude Code (rédaction par Claude)
+        if: env.CLAUDE_CODE_OAUTH_TOKEN != '' || env.ANTHROPIC_API_KEY != ''
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Lancer l'agent
+        run: python agent.py "${{ inputs.etape || 'tout' }}"

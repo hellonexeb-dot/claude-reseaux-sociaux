@@ -1,0 +1,8 @@
+{
+  "name": "reseaux",
+  "version": "1.0.0",
+  "description": "Agent IA pour les réseaux sociaux : idées, rédaction, images et publication automatique sur LinkedIn, Facebook et Instagram, validées dans Notion, planifiées sur ton rythme avec un calendrier éditorial mensuel. Installation guidée pas à pas, sans frais en plus de ton abonnement Claude, sans jamais coller une clé dans la conversation.",
+  "author": { "name": "Nexeb", "url": "https://nexeb.fr" },
+  "license": "MIT",
+  "keywords": ["reseaux-sociaux", "linkedin", "facebook", "instagram", "notion", "gemini", "automatisation", "tpe", "french"]
+}

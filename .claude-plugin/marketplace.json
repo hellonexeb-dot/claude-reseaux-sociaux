@@ -1,0 +1,19 @@
+{
+  "name": "reseaux-sociaux",
+  "owner": {
+    "name": "Nexeb",
+    "url": "https://nexeb.fr"
+  },
+  "metadata": {
+    "description": "Plugins Claude Code pour automatiser sa communication sur les réseaux sociaux, gratuitement.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "reseaux",
+      "source": "./reseaux",
+      "description": "Installe pas à pas un agent IA qui propose des idées de posts, rédige les textes, génère les images et publie sur LinkedIn, Facebook et Instagram après ta validation dans Notion. Planification sur ton rythme et calendrier éditorial mensuel. Sans frais en plus de ton abonnement Claude (Notion, Cloudflare, GitHub Actions gratuits).",
+      "version": "1.0.0"
+    }
+  ]
+}
