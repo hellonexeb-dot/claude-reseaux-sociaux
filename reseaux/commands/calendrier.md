@@ -87,7 +87,8 @@ Demande avec AskUserQuestion comment les créer :
       "titre": "…",
       "mots_cles": ["…", "…", "…"],
       "pilier": "nom exact d'un thème actif",
-      "angle": "1 à 2 phrases : le message clé et ce que le lecteur retient"
+      "angle": "1 à 2 phrases : le message clé et ce que le lecteur retient",
+      "consignes": "facultatif : instructions précises pour la rédaction (ce qu'il faut dire ou éviter)"
     }
   ]
 }

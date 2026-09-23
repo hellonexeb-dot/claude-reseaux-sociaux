@@ -86,6 +86,8 @@ def creer_idee(idee, statut, quand=None):
     }
     if idee.get("pilier"):
         props[s.PILIER] = notion.choix(idee["pilier"])
+    if idee.get("consignes"):
+        props[s.CONSIGNES] = notion.texte(idee["consignes"])
     if quand:
         props[s.DATE] = notion.date_heure(quand)
     notion.creer(props)
@@ -275,7 +277,7 @@ def etape_verifier():
 
 def importer_calendrier(fichier):
     """Crée les posts d'un calendrier préparé avec /reseaux:calendrier.
-    Format : {"statut": "a_rediger" | "idee", "posts": [{"date", "titre", "mots_cles",
+    Format : {"statut": "a_rediger" | "idee", "posts": [{"date", "titre", "mots_cles", "consignes",
     "pilier", "angle"}]}"""
     plan = json.loads(Path(fichier).read_text(encoding="utf-8"))
     statut = s.A_REDIGER if plan.get("statut") == "a_rediger" else s.IDEE

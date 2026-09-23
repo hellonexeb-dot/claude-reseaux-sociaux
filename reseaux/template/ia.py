@@ -221,9 +221,24 @@ def _image_pollinations(prompt):
     return r.content
 
 
+def retirer_bordure(img):
+    """Certains générateurs encadrent l'image d'une marge blanche malgré la consigne :
+    on découpe la zone utile si les 4 bords sont uniformément clairs."""
+    masque = img.convert("L").point(lambda v: 255 if v < 235 else 0)
+    zone = masque.getbbox()
+    if not zone:
+        return img
+    gauche, haut, droite, bas = zone
+    largeur, hauteur = img.size
+    if (droite - gauche) < largeur * 0.97 or (bas - haut) < hauteur * 0.97:
+        marge = 2  # quelques pixels de sécurité pour ne pas garder de liseré
+        return img.crop((gauche + marge, haut + marge, droite - marge, bas - marge))
+    return img
+
+
 def preparer_pour_reseaux(image):
     """Convertit en JPEG et recadre au centre si le format sort des limites d'Instagram (4:5 à 1.91:1)."""
-    img = Image.open(io.BytesIO(image)).convert("RGB")
+    img = retirer_bordure(Image.open(io.BytesIO(image)).convert("RGB"))
     largeur, hauteur = img.size
     ratio = largeur / hauteur
     if ratio < 0.8:

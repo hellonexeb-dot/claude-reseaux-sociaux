@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 (2026-09-23)
+
+- Images : découpe automatique des bordures blanches ajoutées par certains générateurs.
+- Calendrier : chaque post importé peut porter des `consignes` pour l'IA.
+- Idées : plus de sujets qui supposent un client, un projet ou un chiffre réels.
+
 ## 1.0.0 (2026-09-23)
 
 Première version publique, testée de bout en bout (installation complète et publication
